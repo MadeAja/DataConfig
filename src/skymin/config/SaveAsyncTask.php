@@ -24,7 +24,7 @@ final class SaveAsyncTask extends AsyncTask{
 		private array $data,
 		private int $type
 	){
-		$this->logger = new PrefixedLogger(Server::getInstance()->getLogger(), 'JSONDATA');
+		$this->logger = new PrefixedLogger(Server::getInstance()->getLogger(), 'DataConfig');
 	}
 	
 	public function onRun() :void{
