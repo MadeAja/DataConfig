@@ -1,0 +1,5 @@
+name: DataConfig
+antigen: skymin\config
+api: 4.0.0
+version: SKY
+author: skymin
