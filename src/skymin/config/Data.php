@@ -12,6 +12,7 @@ use function yaml_parse;
 use function preg_replace;
 
 final class Data{
+	use SaveTrait;
 	
 	public const YAML = 0;
 	public const JSON = 1;
@@ -31,8 +32,12 @@ final class Data{
 		}
 	}
 	
-	public static function save(string $path, array $data, int $type = self::YAML) :void{
-		Server::getInstance()->getAsyncPool()->submitTask(new SaveAsyncTask($path, $data, $type));
+	public static function save(string $path, array $data, int $type = self::YAML, bool $async = true) :void{
+		if($async){
+			Server::getInstance()->getAsyncPool()->submitTask(new SaveAsyncTask($path, $data, $type));
+			return;
+		}
+		$this->save($type, $path, $data);
 	}
 	
 }

@@ -8,14 +8,8 @@ use pocketmine\scheduler\AsyncTask;
 
 use PrefixedLogger;
 
-use function file_put_contents;
-use function json_encode;
-use function yaml_emit;
-use const JSON_PRETTY_PRINT;
-use const JSON_UNESCAPED_UNICODE;
-use const YAML_UTF8_ENCODING;
-
 final class SaveAsyncTask extends AsyncTask{
+	use SaveTrait;
 	
 	private PrefixedLogger $logger;
 	
@@ -31,13 +25,8 @@ final class SaveAsyncTask extends AsyncTask{
 		$type = $this->type;
 		$path = $this->path;
 		$data = (array) $this->data;
-		$this->logger->debug('Starting save data at '.  $path);
-		if($type === 0){
-			file_put_contents($path, yaml_emit($data, YAML_UTF8_ENCODING));
-			$this->setResult('Completed');
-		}
-		elseif($type === 1){
-			file_put_contents($path, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+		$this->logger->debug('Starting save data at ' .  $path);
+		if($this->save($type, $path, $data)){
 			$this->setResult('Completed');
 		}else{
 			$this->setResult('Failed');
